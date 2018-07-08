@@ -4,14 +4,15 @@
 #
 Name     : perl-Test-LeakTrace
 Version  : 0.16
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtest-leaktrace-perl/libtest-leaktrace-perl_0.16-1.debian.tar.xz
 Summary  : 'Traces memory leaks'
 Group    : Development/Tools
-License  : Artistic-1.0-Perl
+License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Test-LeakTrace-lib
+Requires: perl-Test-LeakTrace-license
 Requires: perl-Test-LeakTrace-man
 
 %description
@@ -23,9 +24,18 @@ you should just be able to do
 %package lib
 Summary: lib components for the perl-Test-LeakTrace package.
 Group: Libraries
+Requires: perl-Test-LeakTrace-license
 
 %description lib
 lib components for the perl-Test-LeakTrace package.
+
+
+%package license
+Summary: license components for the perl-Test-LeakTrace package.
+Group: Default
+
+%description license
+license components for the perl-Test-LeakTrace package.
 
 
 %package man
@@ -65,6 +75,8 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/perl-Test-LeakTrace
+cp deblicense/copyright %{buildroot}/usr/share/doc/perl-Test-LeakTrace/deblicense_copyright
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot}
 else
@@ -84,6 +96,10 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 %files lib
 %defattr(-,root,root,-)
 /usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/perl-Test-LeakTrace/deblicense_copyright
 
 %files man
 %defattr(-,root,root,-)
