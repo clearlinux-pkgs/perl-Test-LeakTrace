@@ -4,16 +4,16 @@
 #
 Name     : perl-Test-LeakTrace
 Version  : 0.16
-Release  : 3
+Release  : 4
 URL      : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtest-leaktrace-perl/libtest-leaktrace-perl_0.16-1.debian.tar.xz
 Summary  : 'Traces memory leaks'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-Test-LeakTrace-lib
-Requires: perl-Test-LeakTrace-license
-Requires: perl-Test-LeakTrace-man
+Requires: perl-Test-LeakTrace-lib = %{version}-%{release}
+Requires: perl-Test-LeakTrace-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 This is Perl module Test::LeakTrace.
@@ -21,10 +21,20 @@ INSTALLATION
 Test::LeakTrace installation is straightforward. If your CPAN shell is set up,
 you should just be able to do
 
+%package dev
+Summary: dev components for the perl-Test-LeakTrace package.
+Group: Development
+Requires: perl-Test-LeakTrace-lib = %{version}-%{release}
+Provides: perl-Test-LeakTrace-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Test-LeakTrace package.
+
+
 %package lib
 Summary: lib components for the perl-Test-LeakTrace package.
 Group: Libraries
-Requires: perl-Test-LeakTrace-license
+Requires: perl-Test-LeakTrace-license = %{version}-%{release}
 
 %description lib
 lib components for the perl-Test-LeakTrace package.
@@ -38,19 +48,11 @@ Group: Default
 license components for the perl-Test-LeakTrace package.
 
 
-%package man
-Summary: man components for the perl-Test-LeakTrace package.
-Group: Default
-
-%description man
-man components for the perl-Test-LeakTrace package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Test-LeakTrace-0.16
-mkdir -p %{_topdir}/BUILD/Test-LeakTrace-0.16/deblicense/
+cd ..
+%setup -q -T -D -n Test-LeakTrace-0.16 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-LeakTrace-0.16/deblicense/
 
 %build
@@ -75,12 +77,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-Test-LeakTrace
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-Test-LeakTrace/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Test-LeakTrace
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Test-LeakTrace/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -89,20 +91,20 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace.pm
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace/JA.pod
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace/Script.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace/JA.pod
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace/Script.pm
 
-%files lib
-%defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
-
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-Test-LeakTrace/deblicense_copyright
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Test::LeakTrace.3
 /usr/share/man/man3/Test::LeakTrace::JA.3
 /usr/share/man/man3/Test::LeakTrace::Script.3
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Test-LeakTrace/deblicense_copyright
