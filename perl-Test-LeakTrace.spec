@@ -4,7 +4,7 @@
 #
 Name     : perl-Test-LeakTrace
 Version  : 0.16
-Release  : 4
+Release  : 5
 URL      : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtest-leaktrace-perl/libtest-leaktrace-perl_0.16-1.debian.tar.xz
@@ -91,9 +91,9 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace.pm
-/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace/JA.pod
-/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Test/LeakTrace/Script.pm
+/usr/lib/perl5/vendor_perl/5.28.0/x86_64-linux-thread-multi/Test/LeakTrace.pm
+/usr/lib/perl5/vendor_perl/5.28.0/x86_64-linux-thread-multi/Test/LeakTrace/JA.pod
+/usr/lib/perl5/vendor_perl/5.28.0/x86_64-linux-thread-multi/Test/LeakTrace/Script.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -103,7 +103,7 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
+/usr/lib/perl5/vendor_perl/5.28.0/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
 
 %files license
 %defattr(0644,root,root,0755)
