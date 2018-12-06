@@ -4,7 +4,7 @@
 #
 Name     : perl-Test-LeakTrace
 Version  : 0.16
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtest-leaktrace-perl/libtest-leaktrace-perl_0.16-1.debian.tar.xz
