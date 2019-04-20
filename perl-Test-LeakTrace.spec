@@ -4,11 +4,11 @@
 #
 Name     : perl-Test-LeakTrace
 Version  : 0.16
-Release  : 13
+Release  : 14
 URL      : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtest-leaktrace-perl/libtest-leaktrace-perl_0.16-1.debian.tar.xz
-Summary  : 'Traces memory leaks'
+Summary  : Traces memory leaks
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Test-LeakTrace-lib = %{version}-%{release}
@@ -26,6 +26,7 @@ Summary: dev components for the perl-Test-LeakTrace package.
 Group: Development
 Requires: perl-Test-LeakTrace-lib = %{version}-%{release}
 Provides: perl-Test-LeakTrace-devel = %{version}-%{release}
+Requires: perl-Test-LeakTrace = %{version}-%{release}
 
 %description dev
 dev components for the perl-Test-LeakTrace package.
@@ -53,7 +54,7 @@ license components for the perl-Test-LeakTrace package.
 cd ..
 %setup -q -T -D -n Test-LeakTrace-0.16 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-LeakTrace-0.16/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-LeakTrace-0.16/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
