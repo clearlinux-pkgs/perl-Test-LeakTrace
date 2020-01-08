@@ -4,15 +4,15 @@
 #
 Name     : perl-Test-LeakTrace
 Version  : 0.16
-Release  : 18
+Release  : 19
 URL      : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/L/LE/LEEJO/Test-LeakTrace-0.16.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libtest-leaktrace-perl/libtest-leaktrace-perl_0.16-1.debian.tar.xz
-Summary  : Traces memory leaks
+Summary  : 'Traces memory leaks'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-Test-LeakTrace-lib = %{version}-%{release}
 Requires: perl-Test-LeakTrace-license = %{version}-%{release}
+Requires: perl-Test-LeakTrace-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -24,21 +24,11 @@ you should just be able to do
 %package dev
 Summary: dev components for the perl-Test-LeakTrace package.
 Group: Development
-Requires: perl-Test-LeakTrace-lib = %{version}-%{release}
 Provides: perl-Test-LeakTrace-devel = %{version}-%{release}
 Requires: perl-Test-LeakTrace = %{version}-%{release}
 
 %description dev
 dev components for the perl-Test-LeakTrace package.
-
-
-%package lib
-Summary: lib components for the perl-Test-LeakTrace package.
-Group: Libraries
-Requires: perl-Test-LeakTrace-license = %{version}-%{release}
-
-%description lib
-lib components for the perl-Test-LeakTrace package.
 
 
 %package license
@@ -49,18 +39,28 @@ Group: Default
 license components for the perl-Test-LeakTrace package.
 
 
+%package perl
+Summary: perl components for the perl-Test-LeakTrace package.
+Group: Default
+Requires: perl-Test-LeakTrace = %{version}-%{release}
+
+%description perl
+perl components for the perl-Test-LeakTrace package.
+
+
 %prep
 %setup -q -n Test-LeakTrace-0.16
-cd ..
-%setup -q -T -D -n Test-LeakTrace-0.16 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libtest-leaktrace-perl_0.16-1.debian.tar.xz
+cd %{_builddir}/Test-LeakTrace-0.16
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-LeakTrace-0.16/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Test-LeakTrace-0.16/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -70,7 +70,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -79,7 +79,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Test-LeakTrace
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Test-LeakTrace/deblicense_copyright
+cp %{_builddir}/Test-LeakTrace-0.16/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Test-LeakTrace/ac6050b603c4d8a452e10f290eef12636f01755e
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -92,9 +92,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/Test/LeakTrace.pm
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/Test/LeakTrace/JA.pod
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/Test/LeakTrace/Script.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -102,10 +99,13 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 /usr/share/man/man3/Test::LeakTrace::JA.3
 /usr/share/man/man3/Test::LeakTrace::Script.3
 
-%files lib
-%defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
-
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Test-LeakTrace/deblicense_copyright
+/usr/share/package-licenses/perl-Test-LeakTrace/ac6050b603c4d8a452e10f290eef12636f01755e
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/Test/LeakTrace.pm
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/Test/LeakTrace/JA.pod
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/Test/LeakTrace/Script.pm
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/auto/Test/LeakTrace/LeakTrace.so
